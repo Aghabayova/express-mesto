@@ -1,5 +1,5 @@
 const fs = require('fs').promises;
 
-const readFile = (file) => fs.readFile(file);
+const getFile = (file) => fs.readFile(file);
 
-module.exports = { readFile };
+module.exports = { getFile };
