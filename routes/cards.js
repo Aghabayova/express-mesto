@@ -12,8 +12,8 @@ const router = express.Router();
 
 router.get('/', getAllCards);
 router.post('/', createCard);
-router.put('/:_id/likes', likeCard);
-router.delete('/:_id/likes', dislikeCard);
-router.delete('/:_id', deleteCard);
+router.put('/:cardId/likes', likeCard);
+router.delete('/:cardId/likes', dislikeCard);
+router.delete('/:cardId', deleteCard);
 
 module.exports = router;

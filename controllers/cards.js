@@ -27,7 +27,7 @@ const createCard = (req, res) => {
 };
 
 const deleteCard = (req, res) => {
-  Card.findByIdAndDelete(req.params._id)
+  Card.findByIdAndDelete(req.params.cardId)
     .orFail()
     .then((card) => res.send({ data: card }))
     .catch((err) => {
@@ -44,10 +44,10 @@ const deleteCard = (req, res) => {
 };
 
 const likeCard = (req, res) => {
-  Card.findByIdAndUpdate(req.params._id,
+  Card.findByIdAndUpdate(req.params.cardId,
     { $addToSet: { likes: req.user._id } },
     { new: true })
-    .orFail()
+    .orFail({ message: 'Нет карточки с таким id', code: 404 })
     .then((likes) => res.send({ data: likes }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
@@ -63,10 +63,10 @@ const likeCard = (req, res) => {
 };
 
 const dislikeCard = (req, res) => {
-  Card.findByIdAndUpdate(req.params._id,
+  Card.findByIdAndUpdate(req.params.cardId,
     { $pull: { likes: req.user._id } },
     { new: true })
-    .orFail()
+    .orFail({ message: 'Нет карточки с таким id', code: 404 })
     .then((likes) => res.send({ data: likes }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {

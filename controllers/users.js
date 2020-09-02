@@ -10,8 +10,8 @@ const getAllUsers = (req, res) => {
 };
 
 const getUser = (req, res) => {
-  User.findById(req.params._id)
-    .orFail()
+  User.findOne(req.params._id)
+    .orFail({ message: 'Нет пользователя с таким id', code: 404 })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
@@ -43,12 +43,12 @@ const createUser = (req, res) => {
 const updateUser = (req, res) => {
   const { name, about } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, { name, about },
+  User.findOneAndUpdate({ _id: req.user._id }, { name, about },
     {
       new: true,
       runValidators: true,
     })
-    .orFail
+    .orFail({ message: 'Нет пользователя с таким id', code: 404 })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -67,7 +67,7 @@ const updateUser = (req, res) => {
 const updateAvatar = (req, res) => {
   const { avatar } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, { avatar },
+  User.findOneAndUpdate({ _id: req.user._id }, { avatar },
     {
       new: true,
       runValidators: true,
