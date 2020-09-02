@@ -47,7 +47,7 @@ const likeCard = (req, res) => {
   Card.findByIdAndUpdate(req.params.cardId,
     { $addToSet: { likes: req.user._id } },
     { new: true })
-    .orFail({ message: 'Нет карточки с таким id', code: 404 })
+    .orFail()
     .then((likes) => res.send({ data: likes }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
@@ -66,7 +66,7 @@ const dislikeCard = (req, res) => {
   Card.findByIdAndUpdate(req.params.cardId,
     { $pull: { likes: req.user._id } },
     { new: true })
-    .orFail({ message: 'Нет карточки с таким id', code: 404 })
+    .orFail()
     .then((likes) => res.send({ data: likes }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {

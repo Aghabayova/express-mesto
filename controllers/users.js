@@ -10,8 +10,8 @@ const getAllUsers = (req, res) => {
 };
 
 const getUser = (req, res) => {
-  User.findOne(req.params._id)
-    .orFail({ message: 'Нет пользователя с таким id', code: 404 })
+  User.findById(req.params.id)
+    .orFail()
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
@@ -29,7 +29,7 @@ const createUser = (req, res) => {
   User.create({ name, about, avatar })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
-      if (err.message === 'ValidationError') {
+      if (err.name === 'ValidationError') {
         res
           .status(400)
           .send({ message: err.message });
@@ -48,7 +48,7 @@ const updateUser = (req, res) => {
       new: true,
       runValidators: true,
     })
-    .orFail({ message: 'Нет пользователя с таким id', code: 404 })
+    .orFail()
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -72,7 +72,7 @@ const updateAvatar = (req, res) => {
       new: true,
       runValidators: true,
     })
-    .orFail((err) => res.status(400).send({ message: err.message }))
+    .orFail()
     .then((newAvatar) => res.send({ data: newAvatar }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
