@@ -56,7 +56,7 @@ const updateUser = (req, res) => {
         return;
       }
       if (err.name === 'DocumentNotFoundError') {
-        res.status(400).send({ message: err.message });
+        res.status(404).send({ message: err.message });
         return;
       } res
         .status(500)
@@ -80,7 +80,7 @@ const updateAvatar = (req, res) => {
         return;
       }
       if (err.name === 'DocumentNotFoundError') {
-        res.status(400).send({ message: err.message });
+        res.status(404).send({ message: err.message });
         return;
       } res
         .status(500)
